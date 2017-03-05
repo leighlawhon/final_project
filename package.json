@@ -72,6 +72,7 @@
     "react-addons-test-utils": "^15.0.0",
     "react-hot-loader": "^1.2.9",
     "rimraf": "^2.4.3",
+    "sinon": "^1.17.7",
     "style-loader": "^0.13.0",
     "stylelint": "^7.0.3",
     "stylelint-config-standard": "^11.0.0",
