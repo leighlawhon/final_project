@@ -19,19 +19,23 @@ describe('grid section', function() {
     ('55').should.equal('55');
   });
 
-  it('should display a message when it does not have more data to load', function() {
+  it('should display "end of catalog" when it does not have more data to load', function() {
     ('55').should.equal('55');
   });
 
-  it('should display 20 items followed by 1 ad', function() {
+  it('should run a "loading"  animation for min 1 second', function() {
     ('55').should.equal('55');
   });
 
-  it('should have a unique ad', function() {
+  it('should display 20 items', function() {
     ('55').should.equal('55');
   });
 
-  it('should be responsive', function() {
+  it('should be responsive at 1170(5up), 970(4up), and 750(2up + padding)', function() {
+    ('55').should.equal('55');
+  });
+
+  it('should be followed by an ad that is random and unique', function() {
     ('55').should.equal('55');
   });
 

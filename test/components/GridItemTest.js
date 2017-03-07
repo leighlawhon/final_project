@@ -22,7 +22,7 @@ describe('grid section', function() {
   it('has more data to load', function() {
     ('55').should.equal('55');
   });
-  it('has mDOES NOT have more data to load', function() {
+  it('has DOES NOT have more data to load', function() {
     ('55').should.equal('55');
   });
 });
