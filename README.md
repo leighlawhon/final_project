@@ -2,10 +2,10 @@ ASCII
 
 BDD
 $section_renders =
-  A loading animation will run
+  A loading animation will run (min timeout 1 sec for proper feedback)
   And the products will render an additional grid of 20 items
   And will be followed by an ad that is random and unique
-  And will be responsive at 1040, 720 and 340
+  And will be responsive at 1170(5up), 970(4up), and 750(2up + padding)
   And will quietly fetch the next set of results
 
 $date_renders =

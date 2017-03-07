@@ -43,7 +43,6 @@
     "babel-preset-react": "^6.0.15",
     "babel-preset-stage-0": "^6.5.0",
     "bower-webpack-plugin": "^0.1.9",
-    "chai": "^3.2.0",
     "copyfiles": "^1.0.0",
     "css-loader": "^0.23.0",
     "eslint": "^3.0.0",
@@ -72,6 +71,7 @@
     "react-addons-test-utils": "^15.0.0",
     "react-hot-loader": "^1.2.9",
     "rimraf": "^2.4.3",
+    "should": "^11.2.0",
     "sinon": "^1.17.7",
     "style-loader": "^0.13.0",
     "stylelint": "^7.0.3",
@@ -82,6 +82,7 @@
   },
   "dependencies": {
     "core-js": "^2.0.0",
+    "karma-should": "^1.0.0",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0"
