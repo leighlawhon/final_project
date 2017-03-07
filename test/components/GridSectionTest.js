@@ -1,42 +1,47 @@
 /*eslint-env node, mocha */
-/*global expect */
 /*eslint no-console: 0*/
-var should = require('should');
+import should from 'should';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import GridSection from '../../src/components/GridSection';
+import createComponent from '../helpers/shallowRenderHelper'
+var spy = sinon.spy();
 
-describe('grid section', function() {
-  this.timeout(5000); // timeout after 5 seconds
-  this.timeout(0); // disables timeout
+describe.only('load grid section', function() {
+  beforeEach(function() {
+    this.GridSectionComponent = createComponent(GridSection);
+    console.log("trying to log");
+  });
+
+  afterEach(() => console.log('loggging') );
 
   it('should load the JSON', function() {
-    ('55').should.equal('55');
+    console.log("trying to log");
+ // this.GridSectionComponent.fecthASCII().should.equal("ASCII");
   });
 
-  it('should alert when failing to load the JSON', function() {
-    ('55').should.equal('55');
+  xit('should alert when failing to load the JSON', function() {
+
   });
 
-  it('should preload when it has more data to load', function() {
-    ('55').should.equal('55');
+  xit('should preload when it has more data to load', function() {
+
   });
 
-  it('should display "end of catalog" when it does not have more data to load', function() {
-    ('55').should.equal('55');
+  xit('should display "end of catalog" when it does not have more data to load', function() {
+
   });
 
-  it('should run a "loading"  animation for min 1 second', function() {
-    ('55').should.equal('55');
+  xit('should run a "loading"  animation for min 1 second', function() {
   });
 
-  it('should display 20 items', function() {
-    ('55').should.equal('55');
+  xit('should display 20 items', function() {
   });
 
-  it('should be responsive at 1170(5up), 970(4up), and 750(2up + padding)', function() {
-    ('55').should.equal('55');
+  xit('should be responsive at 1170(5up), 970(4up), and 750(2up + padding)', function() {
   });
 
-  it('should be followed by an ad that is random and unique', function() {
-    ('55').should.equal('55');
+  xit('should be followed by an ad that is random and unique', function() {
   });
 
 });

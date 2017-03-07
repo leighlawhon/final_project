@@ -8,15 +8,15 @@ describe('date added', function() {
   this.timeout(0); // disables timeout
 
   it('should display a date field for when the product was added', function() {
-    ('55').should.equal('55');
+    
   });
 
   it('should show a relative date if it was added less than a week ago', function() {
-    ('55').should.equal('55');
+    
   });
 
   it('should show a actual date if it was added more than a week ago', function() {
-    ('55').should.equal('55');
+    
   });
 
 });

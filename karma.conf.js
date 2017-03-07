@@ -12,8 +12,12 @@ module.exports = function(config) {
     ],
     port: 8181,
     captureTimeout: 60000,
-    frameworks: [ 'mocha', 'should' ],
+    frameworks: [ 'mocha', 'should', 'sinon' ],
     client: {
+      config: {
+          browserConsoleLogOptions: true
+      },
+      captureConsole: true,
       mocha: {}
     },
     singleRun: true,

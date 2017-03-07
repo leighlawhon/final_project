@@ -8,21 +8,21 @@ describe('grid section', function() {
   this.timeout(0); // disables timeout
 
   it('has loaded the JSON', function() {
-    ('55').should.equal('55');
+
   });
 
-  it('has failed laoading the JSON', function() {
-    ('55').should.equal('55');
+  it('has failed loading the JSON', function() {
+    
   });
 
   it('has loaded the JSON', function() {
-    ('55').should.equal('55');
+
   });
 
   it('has more data to load', function() {
-    ('55').should.equal('55');
+
   });
   it('has DOES NOT have more data to load', function() {
-    ('55').should.equal('55');
+
   });
 });
