@@ -1,9 +1,9 @@
 function parseResponse(contentType, response) {
   switch (contentType) {
-    case contentType.includes('application/json'):
+    case 'application/x-json-stream':
       response.json().catch((error) => { Promise.reject(new Error(`Invalid JSON: ${error.message}`)); });
       break;
-    case contentType.includes('text/html'):
+    case 'text/html':
       response.text().then(html => ({
         page_type: 'generic',
         html,
