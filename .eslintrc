@@ -22,6 +22,6 @@
   },
   "rules": {
     "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
-    "complexity": ["error", 1],
+    "complexity": ["warn", 3],
   }
 }
