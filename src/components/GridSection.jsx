@@ -4,10 +4,9 @@ class GridSection extends React.PureComponent {
   constructor(props) {
     super(props);
     this.fecthASCII = this.fecthASCII.bind(this);
-    console.log('comp');
   }
   fecthASCII() {
-    return "ASCII"
+    return "ASCII";
   }
   render() {
     return (

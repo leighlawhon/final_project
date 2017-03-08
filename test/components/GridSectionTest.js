@@ -4,20 +4,17 @@ import should from 'should';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import GridSection from '../../src/components/GridSection';
-import createComponent from '../helpers/shallowRenderHelper'
+import TestUtils from 'react-addons-test-utils';
 var spy = sinon.spy();
 
 describe.only('load grid section', function() {
   beforeEach(function() {
-    this.GridSectionComponent = createComponent(GridSection);
-    console.log("trying to log");
+    this.GridSectionComponent = TestUtils.renderIntoDocument(<GridSection/>);
   });
-
-  afterEach(() => console.log('loggging') );
+  // afterEach(() => );
 
   it('should load the JSON', function() {
-    console.log("trying to log");
- // this.GridSectionComponent.fecthASCII().should.equal("ASCII");
+    this.GridSectionComponent.fecthASCII().should.equal("ASCII");
   });
 
   xit('should alert when failing to load the JSON', function() {
