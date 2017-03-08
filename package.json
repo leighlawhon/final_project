@@ -2,7 +2,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "ASCII Wearhouse Test for X-Team",
-  "author": "Leigh Lawhon",
+  "author": "Leigh Lawhpn",
   "eslintConfig": {
     "parser": "babel-eslint",
     "extends": "airbnb"
@@ -34,7 +34,6 @@
   },
   "repository": "",
   "keywords": [],
-  "author": "Leigh Lawhpn",
   "devDependencies": {
     "babel-core": "^6.0.0",
     "babel-eslint": "^6.0.0",
@@ -83,12 +82,13 @@
     "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
+    "cool-ascii-faces": "^1.3.4",
     "core-js": "^2.0.0",
+    "ecstatic": "^1.4.0",
     "karma-should": "^1.0.0",
+    "lodash": "^4.17.4",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
-    "react-dom": "^15.0.0",
-    "cool-ascii-faces": "^1.3.4",
-    "ecstatic": "^1.4.0"
+    "react-dom": "^15.0.0"
   }
 }
