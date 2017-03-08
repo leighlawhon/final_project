@@ -16,9 +16,10 @@ function parseResponse(contentType, response) {
 
 const getURL = function get(url) {
   return fetch(url).then((response) => {
-    if (response.ok) {
+    if (response.ok || response.status === 200) {
+      console.log(response);
       const contentType = response.headers.get('Content-Type') || '';
-      parseResponse(contentType, response);
+      return parseResponse(contentType, response);
     }
 
     if (response.status === 404) {
