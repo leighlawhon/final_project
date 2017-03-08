@@ -27,7 +27,7 @@
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
     "serve": "node server.js --env=dev",
     "serve:dist": "node server.js --env=dist",
-    "start": "node server.js --env=dev && npm run startASCII",
+    "start": "concurrently --kill-others \"npm run startASCII\" \"node server.js --env=dev\"",
     "startASCII": "node index.js",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"
@@ -43,6 +43,7 @@
     "babel-preset-react": "^6.0.15",
     "babel-preset-stage-0": "^6.5.0",
     "bower-webpack-plugin": "^0.1.9",
+    "concurrently": "^3.4.0",
     "copyfiles": "^1.0.0",
     "css-loader": "^0.23.0",
     "eslint": "^3.0.0",
