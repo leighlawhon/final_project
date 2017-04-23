@@ -6,11 +6,39 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script type="text/javascript" src="//platform.linkedin.com/in.js">
+      api_key:774g6o267h5b27
+      authorize: true
+      onLoad: onLinkedInLoad
+  </script>
+  <script type="text/javascript">
+  // Setup an event listener to make an API call once auth is complete
+  function onLinkedInLoad() {
+      IN.Event.on(IN, "auth", getProfileData);
+  }
+
+  // Handle the successful return from the API call
+  function onSuccess(data) {
+      console.log(data);
+  }
+
+  // Handle an error response from the API call
+  function onError(error) {
+      console.log(error);
+  }
+
+  // Use the API call wrapper to request the member's basic profile data
+  function getProfileData() {
+      IN.API.Raw("/people/~").result(onSuccess).error(onError);
+  }
+
+
+  </script>
 </head>
 <body>
   <div id="ascii-container"></div>
-
+  <script type="in/Login"></script>
   <script>__REACT_DEVTOOLS_GLOBAL_HOOK__ = parent.__REACT_DEVTOOLS_GLOBAL_HOOK__</script>
-  <script type="text/javascript" src="/assets/app.js"></script>
+  <!-- <script type="text/javascript" src="/assets/app.js"></script> -->
 </body>
 </html>

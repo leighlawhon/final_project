@@ -2,7 +2,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "ASCII Wearhouse Test for X-Team",
-  "author": "Leigh Lawhpn",
+  "author": "Leigh Lawhon",
   "eslintConfig": {
     "parser": "babel-eslint",
     "extends": "airbnb"
@@ -27,7 +27,7 @@
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
     "serve": "node server.js --env=dev",
     "serve:dist": "node server.js --env=dist",
-    "start": "concurrently --kill-others \"npm run startASCII\" \"node server.js --env=dev\"",
+    "start": "concurrently --kill-others  \"npm run startASCII\" \"node server.js --env=dev\"",
     "startASCII": "node index.js",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"
@@ -35,9 +35,11 @@
   "repository": "",
   "keywords": [],
   "devDependencies": {
+    "babel": "^6.23.0",
     "babel-core": "^6.0.0",
     "babel-eslint": "^6.0.0",
     "babel-loader": "^6.0.0",
+    "babel-plugin-add-jsdoc-properties": "^0.1.4",
     "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.0.15",
     "babel-preset-react": "^6.0.15",
@@ -46,6 +48,7 @@
     "concurrently": "^3.4.0",
     "copyfiles": "^1.0.0",
     "css-loader": "^0.23.0",
+    "dotenv": "^4.0.0",
     "eslint": "^3.0.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-loader": "^1.0.0",
@@ -55,6 +58,9 @@
     "file-loader": "^0.9.0",
     "glob": "^7.0.0",
     "isparta-instrumenter-loader": "^1.0.0",
+    "jsdoc": "^3.4.3",
+    "jsdoc-babel": "^0.3.0",
+    "jsdoc-webpack-plugin": "0.0.2",
     "karma": "~1.4.0",
     "karma-chai": "^0.1.0",
     "karma-coverage": "^1.0.0",

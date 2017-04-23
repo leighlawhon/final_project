@@ -1,7 +1,8 @@
 var http = require('http');
-var serveStaticFiles = require('ecstatic')({ root: __dirname + '/static' });
+var serveStaticFiles = require('ecstatic')({ root: __dirname + '/src' });
 var port = process.env.PORT || 8000;
-
+require('dotenv').config();
+console.log(process.env.APIKEY, 'dotenv');
 http.createServer(function (req, res) {
     if (req.url.indexOf('/ad') === 0) {
         return require('./lib/http-handle-ads')(req, res);

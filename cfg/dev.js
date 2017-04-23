@@ -7,6 +7,7 @@ let defaultSettings = require('./defaults');
 
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');
+// let JsDocPlugin = require('jsdoc-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
   entry: [
@@ -21,7 +22,10 @@ let config = Object.assign({}, baseConfig, {
     new webpack.NoErrorsPlugin(),
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
-    })
+    }),
+    // new JsDocPlugin({
+    //     conf: '../jsdoc.conf.js'
+    // })
   ],
   module: defaultSettings.getDefaultModules()
 });
