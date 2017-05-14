@@ -12,31 +12,36 @@ from datetime import datetime, timedelta
 import re
 import urllib
 import ast
+import os
 
 # loop trhough resumes
-text = textract.process("PDFs/google/AndrewLeeProfile.pdf")
-# Find the different sections
-def findSection( s, first, last ):
-    try:
-        start = s.index( first ) + len( first )
-        end = s.index( last, start )
-        return s[start:end]
-    except ValueError:
-        return ""
-
-Name = text.splitlines()[0]
-FirstName = text.split(Name)[2].split('Contact')[1].split(' ')[1]
-print FirstName
-Experience = findSection(text, 'Experience', 'Education')
-Summary = findSection(text, 'Summary', 'Experience')
-Education = findSection(text, 'Education', Name)
-# print Education
-years_working = 0
 
 def main():
-    parseResume()
+    indir = 'PDFs/google/'
+    employees = []
+    for root, dirs, filenames in os.walk(indir):
+        for f in filenames:
+            if f[0] is not '.':
+                # print(indir + f)
+                text = textract.process(indir + f)
+                # print 'text', text
+                employee = parseResume(text)
+                employees.append(employee)
+    json.dump(employees, open('demo_data.json', 'w'))
 
-def parseResume():
+def parseResume(text):
+    # Find the different sections
+    # print text
+    Name = text.splitlines()[0]
+    NameSections = text.split(Name)
+    # print NameSections[2]
+    FirstName = NameSections[2].split('Contact')[1].split(' ')[1]
+    # print FirstName
+    Experience = findSection(text, 'Experience', 'Education')
+    Summary = findSection(text, 'Summary', 'Experience')
+    Education = findSection(text, 'Education', Name)
+    # print Education
+    years_working = 0
     employee = {
         "name": Name,
         "first_name": FirstName,
@@ -45,8 +50,7 @@ def parseResume():
         "education": parseEducation(Education),
         "age": estimateAge()
     }
-    print employee['education']
-    json.dump(employee, open('demo_data.json', 'w'))
+    # print employee['education']
     return employee
 
 
@@ -81,6 +85,14 @@ def parseCompanies(Experience):
         #     print 'is not'#, clean_line
         # print len(companies)
     return companies
+def findSection( s, first, last ):
+    try:
+        start = s.index( first ) + len( first )
+        end = s.index( last, start )
+        return s[start:end]
+    except ValueError:
+        return ""
+
 def cleanLines(textArray):
     clean_lines = []
     # print type(textArray)
@@ -120,7 +132,7 @@ def checkIfDate(date):
     except:
         pass
     try:
-        if("(" and ")" in date):
+        if("(" and ")" and "month" in date):
             date_exract = date.split('(')[0]
             years_working = date.split('(')[1].strip(')')
             # print years_working
@@ -140,6 +152,8 @@ def checkForDefiniton(clean_lines, lines_after):
             definition_text.append(line)
         else:
             # remove the last line
+            print line
+            print checkIfDate(line)
             definition_text.pop()
             break
     return ' '.join([str(x) for x in definition_text])
