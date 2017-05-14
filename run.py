@@ -4,8 +4,6 @@
 # Created on Sun May  7 18:16:51 2017
 #
 # @author: leigh
-# """
-#
 
 # from api import app
 # app.run(debug=True)
@@ -40,12 +38,14 @@ def parseResume():
         "gender":'test',
         'age':''
     }
+    print employee['companies'][4]
+    return employee
     # json.dump(employee, open('demo_data.json', 'w'))
 
 # Chunk the companies from Experience
 def parseCompanies(Experience):
     textArray = Experience.splitlines()
-    resume_pattern = ['company', 'date', 'description']
+    # resume_pattern = ['company', 'date', 'description']
     companies = []
     clean_lines = cleanLines(textArray)
     all_lines_length = len(clean_lines)
@@ -54,56 +54,32 @@ def parseCompanies(Experience):
         name_line = parseName(clean_lines[index - 1])
         # if line has a date, chunk into companies
         if checkIfDate(dates[0]) is not None:
+            # print 'is date'
             company = {}
-            lines_after =  index - all_lines_length
-            after_lines = clean_lines
-            after_index = index + 1
+            lines_after =  (index + 1) - all_lines_length
+            # after_lines = clean_lines[lines_after]
+            # print lines_after, clean_lines[lines_after]
+            # after_index = index + 1
             # print all_lines_length-index
-            print after_lines[-4:31], index,  'lines'
+            # print after_lines[-4:31], index,  'lines'
             # print 'is date'
             # take the previous line and make it a name
             company['name'] = name_line['name']
             company['position'] = name_line['position']
             # parse the dates
-            first_date=checkIfDate(dates[0])
-            start_date = first_date['date_exract']
+            start_date = checkIfDate(dates[0])
             end_date=checkIfDate(dates[1])
             # print type(end_date['date_exract'])
-            company['start_date'] = type(start_date),
+            company['start_date'] = start_date['date_exract'],
             company['end_date'] = end_date['date_exract'],
             company['years_working'] = end_date['years_working']
-            company['definiton'] = checkForDefiniton(after_lines)
-            # if next line is not a date, then it is a definiton
-            # for line_after in clean_lines[index + 1]:
-            #     print line_after
-            #     if checkIfDate(line_after) is None:
-            #         company['definiton'] = line_after
+            company['definiton'] = checkForDefiniton(clean_lines, lines_after)
+            companies.append(company)
             # print company
-
         else:
-            print 'is not'
-
-    #     start_date = ''
-    #     end_date = ''
-    #     company_name = ''
-    #     desctiption = ''
-    #     # if pre_line = '' first line it's the company
-    #     if(resume_pattern[index] == 'company'):
-    #         company_name = line
-    #         print company_name
-    #     # check if line is a date split by a dash
-    #     # if (line == 'October 2014 - Present' and '-' in line) :
-    #     if (resume_pattern[index] =='date' and '-' in line) :
-    #         dates = line.split('-')
-    #         start_date=checkIfDate(dates[0])
-    #         end_date=checkIfDate(dates[1])
-    #         # Verify it is a date and not a String
-    #         years_working=totalYears(start_date, end_date)
-    #         company['start_date'] = start_date['date_exract'],
-    #         company['end_date'] = end_date['date_exract'],
-    #         company['years_working'] = end_date['date_exract']
-    #     company['description'] = line
-    #     companies.append( company)
+            print 'is not'#, clean_line
+        # print len(companies)
+    return companies
 def cleanLines(textArray):
     clean_lines = []
     for index, line in enumerate(textArray):
@@ -148,16 +124,37 @@ def checkIfDate(date):
             return {"date_exract": date_exract.strip(), "years_working": years_working}
     except:
         return False
-def checkForDefiniton(after_lines):
-    # index is the current index for the date
-    # for date + length of the clean_lines
+def checkForDefiniton(clean_lines, lines_after):
+    # parse lines until you find a date
+    definition_text = []
+    remaining_lines = clean_lines[lines_after: len(clean_lines)]
+    # print remaining_lines
+    # print lines_after, clean_lines[lines_after: len(clean_lines)]
+    # for remaining lines in clean_lines
+    for line in remaining_lines:
+        if (checkIfDate(line) is None):
+            definition_text.append(line)
+        else:
+            # remove the last line
+            definition_text.pop()
+            break
+    return ' '.join([str(x) for x in definition_text])
+        # while (checkIfDate(line) is None):
+        #     array_str = definition_text.join(str(line))
+        #     definition_text = array_str
+        # else: break
 
-    i = 1
-    definition_text = ''
-    if checkIfDate(after_lines[0]) is None:
-        definition_text.join(after_lines[0])
-        return after_lines[0]
-    else: return 'not line'
+            # return definition_text
+            # break
+        # else: return definition_text
+        # return clean_lines[lines_after]
+
+    # i = 1
+    # definition_text = ''
+    # if checkIfDate(after_lines[0]) is None:
+    #     definition_text.join(after_lines[0])
+    #     return after_lines[0]
+    # else: return 'not line'
     # ToDo: check if two lines down is a date and is so, the definition is blank
 def estimateAge():
     print "test"
