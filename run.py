@@ -10,6 +10,9 @@
 import textract, json, sys
 from datetime import datetime, timedelta
 import re
+import urllib
+import ast
+
 # loop trhough resumes
 text = textract.process("PDFs/google/AndrewLeeProfile.pdf")
 # Find the different sections
@@ -22,9 +25,12 @@ def findSection( s, first, last ):
         return ""
 
 Name = text.splitlines()[0]
+FirstName = text.split(Name)[2].split('Contact')[1].split(' ')[1]
+print FirstName
 Experience = findSection(text, 'Experience', 'Education')
 Summary = findSection(text, 'Summary', 'Experience')
-Education = findSection(text, 'Experience', Name)
+Education = findSection(text, 'Education', Name)
+# print Education
 years_working = 0
 
 def main():
@@ -33,14 +39,16 @@ def main():
 def parseResume():
     employee = {
         "name": Name,
-        "first_name": "",
-        "companies":parseCompanies(Experience),
-        "gender":'test',
-        'age':''
+        "first_name": FirstName,
+        "companies": parseCompanies(Experience),
+        "gender":checkGender(FirstName),
+        "education": parseEducation(Education),
+        "age": estimateAge()
     }
-    print employee['companies'][4]
+    print employee['education']
+    json.dump(employee, open('demo_data.json', 'w'))
     return employee
-    # json.dump(employee, open('demo_data.json', 'w'))
+
 
 # Chunk the companies from Experience
 def parseCompanies(Experience):
@@ -57,13 +65,6 @@ def parseCompanies(Experience):
             # print 'is date'
             company = {}
             lines_after =  (index + 1) - all_lines_length
-            # after_lines = clean_lines[lines_after]
-            # print lines_after, clean_lines[lines_after]
-            # after_index = index + 1
-            # print all_lines_length-index
-            # print after_lines[-4:31], index,  'lines'
-            # print 'is date'
-            # take the previous line and make it a name
             company['name'] = name_line['name']
             company['position'] = name_line['position']
             # parse the dates
@@ -76,12 +77,13 @@ def parseCompanies(Experience):
             company['definiton'] = checkForDefiniton(clean_lines, lines_after)
             companies.append(company)
             # print company
-        else:
-            print 'is not'#, clean_line
+        # else:
+        #     print 'is not'#, clean_line
         # print len(companies)
     return companies
 def cleanLines(textArray):
     clean_lines = []
+    # print type(textArray)
     for index, line in enumerate(textArray):
         # print index, line
         if re.match(r'^\r*$', line):
@@ -95,7 +97,9 @@ def cleanLines(textArray):
             # adjusted_index = adjusted_index + 1
     return clean_lines
 def parseName(name):
-    name_split = name.split('at')
+    # Todo check if split by dash like the first one
+    # if not split by -
+    name_split = name.split(' at ')
     if (len(name_split) > 1):
         return {'name': name_split[1], 'position': name_split[0]}
     else:
@@ -139,35 +143,33 @@ def checkForDefiniton(clean_lines, lines_after):
             definition_text.pop()
             break
     return ' '.join([str(x) for x in definition_text])
-        # while (checkIfDate(line) is None):
-        #     array_str = definition_text.join(str(line))
-        #     definition_text = array_str
-        # else: break
-
-            # return definition_text
-            # break
-        # else: return definition_text
-        # return clean_lines[lines_after]
-
-    # i = 1
-    # definition_text = ''
-    # if checkIfDate(after_lines[0]) is None:
-    #     definition_text.join(after_lines[0])
-    #     return after_lines[0]
-    # else: return 'not line'
-    # ToDo: check if two lines down is a date and is so, the definition is blank
+def checkGender(FirstName):
+    f = urllib.urlopen("https://api.genderize.io/?name=" + FirstName)
+    results = f.read()
+    gender = ast.literal_eval(results)['gender']
+    print gender
+    return gender
+def parseEducation(ed_section):
+    ed_lines = ed_section.splitlines()
+    clean_ed_lines = cleanLines(ed_lines)
+    education = []
+    for (index, line) in enumerate(clean_ed_lines):
+        # if it contains a date
+        school = {}
+        if ',' in line:
+            degree_line = line.split(',')
+            if '-' in degree_line[-1]:
+                dates = degree_line[-1].split('-')
+                school['start'] = dates[0].strip()
+                school['end'] = dates[1].strip()
+                school['name'] = clean_ed_lines[index - 1]
+                education.append(school)
+    return education
 def estimateAge():
     print "test"
     # check education for highschool
     # check education for Degree
     # estimate age based on graduation
-
-def estimateExperienceYears():
-    print "test"
-    # find earliest date for estimateExperienceYears
-    # find present or latest date
-    # calculate years
-
 if __name__ == '__main__':
     main()
 
