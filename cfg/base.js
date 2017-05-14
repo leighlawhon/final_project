@@ -1,14 +1,13 @@
 'use strict';
 let path = require('path');
 let defaultSettings = require('./defaults');
-
 // Additional npm or bower modules to include in builds
 // Add all foreign plugins you may need into this array
 // @example:
 // let npmBase = path.join(__dirname, '../node_modules');
 // let additionalPaths = [ path.join(npmBase, 'react-bootstrap') ];
 let additionalPaths = [];
-
+console.log('test======');
 module.exports = {
   additionalPaths: additionalPaths,
   port: defaultSettings.port,
@@ -25,15 +24,7 @@ module.exports = {
     hot: true,
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
-    noInfo: false,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000/'
-      },
-      '/ad': {
-        target: 'http://localhost:8000/'
-      }
-    },
+    noInfo: false
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -46,6 +37,9 @@ module.exports = {
       config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV,
       'react/lib/ReactMount': 'react-dom/lib/ReactMount'
     }
+  },
+  node: {
+    fs: 'empty'
   },
   module: {}
 };

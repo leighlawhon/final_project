@@ -4,10 +4,10 @@ let path = require('path');
 let webpack = require('webpack');
 let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
+const DotenvPlugin = require('dotenv-webpack');
 
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');
-// let JsDocPlugin = require('jsdoc-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
   entry: [
@@ -23,9 +23,10 @@ let config = Object.assign({}, baseConfig, {
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    // new JsDocPlugin({
-    //     conf: '../jsdoc.conf.js'
-    // })
+    new DotenvPlugin({
+      path: './.env', // Path to .env file (this is the default)
+      safe: true // load .env.example (defaults to "false" which does not use dotenv-safe)
+    })
   ],
   module: defaultSettings.getDefaultModules()
 });

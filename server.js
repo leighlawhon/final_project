@@ -5,6 +5,25 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
 const open = require('open');
+const dotenv = require('dotenv');
+dotenv.config();
+dotenv.load();
+
+var spawn = require('child_process').spawn,
+    py    = spawn('python', ['pdf.py']),
+    data = [1,2,3,4,5,6,7,8,9],
+    dataString = 'test';
+
+py.stdout.on('data', function(data){
+  console.log(data, 'data');
+  dataString += data.toString();
+});
+py.stdout.on('end', function(){
+  console.log('Sum of numbers=',dataString);
+});
+py.stdin.write(JSON.stringify(data));
+py.stdin.end();
+
 
 /**
  * Flag indicating whether webpack compiled for the first time.

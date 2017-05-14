@@ -10,14 +10,10 @@ module.exports = function(config) {
     files: [
       'test/loadtests.js'
     ],
-    port: 8181,
+    port: 8000,
     captureTimeout: 60000,
-    frameworks: [ 'mocha', 'should', 'sinon' ],
+    frameworks: [ 'mocha', 'chai' ],
     client: {
-      config: {
-          browserConsoleLogOptions: true
-      },
-      captureConsole: true,
       mocha: {}
     },
     singleRun: true,
