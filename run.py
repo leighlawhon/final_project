@@ -47,30 +47,42 @@ def parseCompanies(Experience):
     textArray = Experience.splitlines()
     resume_pattern = ['company', 'date', 'description']
     companies = []
+    clean_lines = cleanLines(textArray)
+    all_lines_length = len(clean_lines)
+    for index, clean_line in enumerate(clean_lines):
+        dates = clean_line.split('-')
+        name_line = parseName(clean_lines[index - 1])
+        # if line has a date, chunk into companies
+        if checkIfDate(dates[0]) is not None:
+            company = {}
+            lines_after =  index - all_lines_length
+            after_lines = clean_lines
+            after_index = index + 1
+            # print all_lines_length-index
+            print after_lines[-4:31], index,  'lines'
+            # print 'is date'
+            # take the previous line and make it a name
+            company['name'] = name_line['name']
+            company['position'] = name_line['position']
+            # parse the dates
+            first_date=checkIfDate(dates[0])
+            start_date = first_date['date_exract']
+            end_date=checkIfDate(dates[1])
+            # print type(end_date['date_exract'])
+            company['start_date'] = type(start_date),
+            company['end_date'] = end_date['date_exract'],
+            company['years_working'] = end_date['years_working']
+            company['definiton'] = checkForDefiniton(after_lines)
+            # if next line is not a date, then it is a definiton
+            # for line_after in clean_lines[index + 1]:
+            #     print line_after
+            #     if checkIfDate(line_after) is None:
+            #         company['definiton'] = line_after
+            # print company
 
-    adjusted_index = 0
-    company_counter = 0
-    for index, line in enumerate(textArray):
-        company = {}
-        if re.match(r'^\s*$', line):
-            adjusted_index = int(index) - 1
-            continue
-        elif re.match(r'Page ', line):
-            adjusted_index = (int(index)) - 1
-            continue
         else:
-            adjusted_index = adjusted_index + 1
-            print adjusted_index, line
-            if resume_pattern[company_counter] == 'company':
-                company['name'] = line
-                company_counter = company_counter + 1
-            elif resume_pattern[company_counter] == 'date':
-                company_counter = company_counter + 1
-                company['date'] = line
-            else:
-                company_counter = 0
-                company['description'] = line
-        print company
+            print 'is not'
+
     #     start_date = ''
     #     end_date = ''
     #     company_name = ''
@@ -92,13 +104,32 @@ def parseCompanies(Experience):
     #         company['years_working'] = end_date['date_exract']
     #     company['description'] = line
     #     companies.append( company)
-    #     print company
+def cleanLines(textArray):
+    clean_lines = []
+    for index, line in enumerate(textArray):
+        # print index, line
+        if re.match(r'^\r*$', line):
+            # adjusted_index = int(index) - 1
+            continue
+        elif re.match(r'Page ', line):
+            # adjusted_index = (int(index)) - 1
+            continue
+        else:
+            clean_lines.append(line)
+            # adjusted_index = adjusted_index + 1
+    return clean_lines
+def parseName(name):
+    name_split = name.split('at')
+    if (len(name_split) > 1):
+        return {'name': name_split[1], 'position': name_split[0]}
+    else:
+        return {'name': '', 'position': name_split[0]}
 def checkIfDate(date):
-    print date.strip(), 'what comes in '
+    # print date.strip(), 'what comes in '
     try:
         if datetime.strptime(date, "%B %Y "):
             # print datetime.strptime(date, "%B %Y "), 'is date'
-            return {"date_exract": datetime.strptime(date, "%B %Y ").strftime("%B %Y"), 'years_working':''}
+            return {"date_exract": datetime.strptime(date, "%B %Y ").strftime("%B %Y")}
     except:
         pass
     try:
@@ -112,16 +143,22 @@ def checkIfDate(date):
         if("(" and ")" in date):
             date_exract = date.split('(')[0]
             years_working = date.split('(')[1].strip(')')
-            print years_working
+            # print years_working
             # print date_exract, findSection(date, "(", ")"), 'date with parens'
             return {"date_exract": date_exract.strip(), "years_working": years_working}
     except:
-        print 'is not parens'
+        return False
+def checkForDefiniton(after_lines):
+    # index is the current index for the date
+    # for date + length of the clean_lines
 
-def totalYears(start, end):
-    # if end contains parens
-    # return (end - start)
-    print end, 'this it the end'
+    i = 1
+    definition_text = ''
+    if checkIfDate(after_lines[0]) is None:
+        definition_text.join(after_lines[0])
+        return after_lines[0]
+    else: return 'not line'
+    # ToDo: check if two lines down is a date and is so, the definition is blank
 def estimateAge():
     print "test"
     # check education for highschool
