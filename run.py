@@ -11,6 +11,7 @@
 # app.run(debug=True)
 import textract, json, sys
 from datetime import datetime, timedelta
+import re
 # loop trhough resumes
 text = textract.process("PDFs/google/AndrewLeeProfile.pdf")
 # Find the different sections
@@ -36,7 +37,6 @@ def parseResume():
         "name": Name,
         "first_name": "",
         "companies":parseCompanies(Experience),
-        "years_working":years_working,
         "gender":'test',
         'age':''
     }
@@ -45,39 +45,54 @@ def parseResume():
 # Chunk the companies from Experience
 def parseCompanies(Experience):
     textArray = Experience.splitlines()
-    company = []
-    for line in textArray:
-        dates = line.split('-')
-        start_date = ''
-        end_date = ''
-        company_name = ''
-        # if it's the first line it's the company
+    resume_pattern = ['company', 'date', 'description']
+    companies = []
 
-        # check if line is a date split by a dash
-        # if (line == 'October 2014 - Present' and '-' in line) :
-        if (line == 'August 2011 - October 2014 (3 years 2 months)' and '-' in line) :
-
-            start_date=checkIfDate(dates[0])
-            end_date=checkIfDate(dates[1])
-            # Verify it is a date and not a String
-            years_working=totalYears(start_date, end_date)
-            company.append( {
-                "start_date":start_date['date_exract'],
-                "end_date":end_date['date_exract'],
-                "years":end_date['years_working']
-            })
-            # if '-' in line:
-            #     startDate = line.split('-')
-            #
-            #     for date in startDate:
-            #         try:
-            #             print datetime.strptime(date, "%B %Y ")
-            #         except ValueError:
-            #             print('Handling an exception', sys.exc_info())
-            #             return ''
-            print company
-        # else:
-            # if it's the line after the date
+    adjusted_index = 0
+    company_counter = 0
+    for index, line in enumerate(textArray):
+        company = {}
+        if re.match(r'^\s*$', line):
+            adjusted_index = int(index) - 1
+            continue
+        elif re.match(r'Page ', line):
+            adjusted_index = (int(index)) - 1
+            continue
+        else:
+            adjusted_index = adjusted_index + 1
+            print adjusted_index, line
+            if resume_pattern[company_counter] == 'company':
+                company['name'] = line
+                company_counter = company_counter + 1
+            elif resume_pattern[company_counter] == 'date':
+                company_counter = company_counter + 1
+                company['date'] = line
+            else:
+                company_counter = 0
+                company['description'] = line
+        print company
+    #     start_date = ''
+    #     end_date = ''
+    #     company_name = ''
+    #     desctiption = ''
+    #     # if pre_line = '' first line it's the company
+    #     if(resume_pattern[index] == 'company'):
+    #         company_name = line
+    #         print company_name
+    #     # check if line is a date split by a dash
+    #     # if (line == 'October 2014 - Present' and '-' in line) :
+    #     if (resume_pattern[index] =='date' and '-' in line) :
+    #         dates = line.split('-')
+    #         start_date=checkIfDate(dates[0])
+    #         end_date=checkIfDate(dates[1])
+    #         # Verify it is a date and not a String
+    #         years_working=totalYears(start_date, end_date)
+    #         company['start_date'] = start_date['date_exract'],
+    #         company['end_date'] = end_date['date_exract'],
+    #         company['years_working'] = end_date['date_exract']
+    #     company['description'] = line
+    #     companies.append( company)
+    #     print company
 def checkIfDate(date):
     print date.strip(), 'what comes in '
     try:
