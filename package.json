@@ -96,6 +96,6 @@
     "lodash": "^4.17.4",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
-    "react-dom": "^15.0.0"
+    "react-dom": "^16.0.1"
   }
 }
