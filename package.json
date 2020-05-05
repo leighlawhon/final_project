@@ -30,7 +30,9 @@
     "start": "concurrently --kill-others  \"npm run startASCII\" \"node server.js --env=dev\"",
     "startASCII": "node index.js",
     "test": "karma start",
-    "test:watch": "karma start --autoWatch=true --singleRun=false"
+    "test:watch": "karma start --autoWatch=true --singleRun=false",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": "",
   "keywords": [],
@@ -96,6 +98,8 @@
     "lodash": "^4.17.4",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
-    "react-dom": "^15.0.0"
-  }
+    "react-dom": "^15.0.0",
+    "snyk": "^1.317.0"
+  },
+  "snyk": true
 }
